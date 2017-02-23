@@ -1,0 +1,192 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+        <div class="row">
+            <div class="col-xs-12 col-md-3">
+                <div class="list-group" id="memberMenu">
+                    <a href="javascript:" class="list-group-item active" onclick="getSchedule()"><i class="fa fa-fw fa-calendar"></i>&nbsp; Schedule</a>
+                    <a href="javascript:" class="list-group-item" onclick="getActivity()"><i class="fa fa-fw fa-history"></i>&nbsp; History</a>
+                    <a href="javascript:" class="list-group-item" onclick="getClasses()"><i class="fa fa-fw fa-calendar-check-o"></i>&nbsp; Past Classes</a>
+                    <a href="javascript:" class="list-group-item" onclick="getEarnings()"><i class="fa fa-fw fa-heart"></i>&nbsp; Earnings</a>
+                    <a href="javascript:" class="list-group-item" onclick="editProfile()"><i class="fa fa-fw fa-list"></i>&nbsp; Profile</a>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-9">
+                <h1 id="title" class="margin-clear">Member Page</h1>
+                <div class="mt-10" id="memberContent">
+	                <div class="tab" id="scheduleDiv"></div>
+	                <div class="tab" id="activityDiv"></div>
+	                <div class="tab" id="classesDiv"></div>
+                </div>
+            </div>
+        </div>
+<input type="hidden" id="week" value="0" />
+<input type="hidden" id="time_from" value="" />
+<input type="hidden" id="time_to" value="" />
+<input type="hidden" id="page" value="0">
+<input type="hidden" id="page_classes" value="0">
+<input type="hidden" id="reloadSchedule" value="1" />
+<input type="hidden" id="reloadActivity" value="1" />
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        function ajaxLoad(type, cache, data, url, div, title) {
+            if (title)
+                $('#title').html(title);
+            $(div).html('<div class="animated fadeIn" style="padding: 15px"><i class="fa fa-refresh fa-spin fa-5x fa-fw"></i><span class="sr-only">Loading...</span></div>');
+            $.ajax({
+                cache: cache,
+                type: type,
+                url: url,
+                data: data,
+                success: function(data) {
+                    $(div).html(data);
+                }
+            });
+        }
+
+        function showTab(divId, title) {
+        	$('#title').html(title);
+            $('#memberContent').children('div.tab').each(function(){
+                if ($(this).attr('id') == divId)
+                    $(this).show();
+                else
+                    $(this).hide();
+            })
+        }
+
+        function getSchedule(reload = 0) {
+            var title = 'Schedule';
+            if ($('#reloadSchedule').val() == 1 || reload == 1) {
+                var week = $('#week').val();
+                var time_from = $('#time_from').val();
+                var time_to = $('#time_to').val();
+    
+                var cache = false;
+                var type = 'POST';
+                var url = '{{ path('ajax_teacher_schedule') }}';
+                var data = 'week='+ week +'&time_from='+ time_from +'&time_to='+ time_to;
+                var div = '#scheduleDiv';
+    
+                ajaxLoad(type, cache, data, url, div, title);
+                $('#reloadSchedule').val(0);
+            }
+
+            showTab('scheduleDiv', title);
+        }
+
+        function getActivity(page = 0, reload = 0) {
+
+        	if (page != 0)
+            	$('#page').val(page);
+            
+            var title = 'History';
+            if ($('#reloadActivity').val() == 1 || reload != 0) {
+                var page = page;
+                var uid = '';
+    
+                var cache = false;
+                var type = 'POST';
+                var url = '{{ path('ajax_activity') }}';
+                var data = 'page='+ page +'&uid='+ uid;
+                var div = '#activityDiv';
+    
+                ajaxLoad(type, cache, data, url, div, title);
+                $('#reloadActivity').val(0);
+            }
+
+            showTab('activityDiv', title);
+        }
+
+        function getClasses() {
+            var title = 'Past Classes';
+            if ($('#classesDiv').text() == '') {
+                var page = $('#page_classes').val();
+                var uid = '';
+    
+                var cache = false;
+                var type = 'POST';
+                var url = '{{ path('ajax_classes') }}';
+                var data = 'page='+ page +'&uid='+ uid;
+                var div = '#classesDiv';
+
+	            ajaxLoad(type, cache, data, url, div, title);
+            }
+
+            showTab('classesDiv', title);
+        }
+
+        function getEarnings() {
+            var title = 'Past Classes';
+            if ($('#classesDiv').text() == '') {
+                var page = $('#page_classes').val();
+                var uid = '';
+    
+                var cache = false;
+                var type = 'POST';
+                var url = '{{ path('ajax_classes') }}';
+                var data = 'page='+ page +'&uid='+ uid;
+                var div = '#classesDiv';
+
+	            ajaxLoad(type, cache, data, url, div, title);
+            }
+
+            showTab('classesDiv', title);
+        }
+
+        function editProfile() {
+            var title = 'Teacher Profile';
+            var cache = false;
+            var type = 'POST';
+            var url = '{{ path('teacher_profile_edit') }}';
+            var div = '#memberContent';
+            var data = '';
+
+            ajaxLoad(type, cache, data, url, div, title);
+        }
+
+        function showSked(week, time_from, time_to)
+        {
+            $('#week').val(week);
+            $('#time_from').val(time_from);
+            $('#time_to').val(time_to);
+
+            getSchedule(1);
+        }
+
+        function showClasses(page)
+        {
+            $('#page_classes').val(page);
+
+            $("#get_classes").trigger('click');
+        }
+
+        $(document).ready()
+        {
+            {% block onLoad %}{% endblock %}
+
+            $('div#memberMenu a').click(function(){
+                $('div#memberMenu a').removeClass("active");
+                $(this).addClass("active");
+                $('#alertsDiv').html('');
+            });
+
+            $('a[href*="#"]:not([href="#"])').click(function() {
+                if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+                    var target = $(this.hash);
+                    target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+                    if (target.length) {
+                        $('html, body').animate({
+                            scrollTop: target.offset().top
+                        }, 1000);
+                        return false;
+                    }
+                }
+            });
+        }
+
+    </script>
+{% endblock %}

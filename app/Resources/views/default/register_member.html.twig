@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ parent() }}
+    <section class="pv-30 clearfix">
+        <div class="container">
+            <div class="row margin-clear">
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+                        {% if form.account_type.vars.value == 'teacher' %}
+                            <div class="panel-heading"><h3 class="panel-title">Teacher Application</h3></div>
+                            <div class="list-group" id="steps">
+                                <a href="#" class="list-group-item active" id="step_1">
+                                    <b>Step 1: Account Info</b><br />Register for an account.
+                                </a>
+                                <a href="#" class="list-group-item" id="step_2">
+                                    <b>Step 2: Applicant Info</b><br />Tell us about yourself.
+                                </a>
+                                <a href="#" class="list-group-item" id="step_3">
+                                    <b>Step 3: Application Complete</b><br />That's it, all done.
+                                </a>
+                            </div>
+                        {% else %}
+                            <div class="panel-heading"><h3 class="panel-title">Student Registration</h3></div>
+                            <div class="panel-body">Create an account to be able to login.</div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div id="registrationDiv">
+                        {% include "FOSUserBundle:Registration:register_content.html.twig" %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('#registration_form').submit(function(event) {
+            var str = $('#registration_form').serialize();
+            $('#registrationDiv').html('<i class="fa fa-refresh fa-spin fa-5x fa-fw"></i><span class="sr-only">Loading...</span>');
+
+            $.ajax({
+                type: "POST",
+                url: "{{ path('fos_user_registration_register') }}",
+                data: str,
+                success: function (data) {
+                    $('#registrationDiv').html(data);
+                }
+            })
+            event.preventDefault();
+        });
+    </script>
+{% endblock %}

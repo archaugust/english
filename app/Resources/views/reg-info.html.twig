@@ -1,0 +1,51 @@
+{% if account_type == 'teacher' %}
+    <div class="row">
+        <div class="col-md-8">
+            <div class="list-group">
+                <div class="list-group-item">
+                    {{ info.nickname }}
+                    <span class="badge">Nickname</span>
+                </div>
+                <div class="list-group-item">
+                    {{ info.points }}
+                    <span class="badge">Points/Lesson</span>
+                </div>
+                <div class="list-group-item">
+                    {{ age }}
+                    <span class="badge">Age</span>
+                </div>
+                {% if role == 'admin' %}
+                    <div class="list-group-item list-group-item-success">
+                        {{ info.fullname }}
+                        <span class="badge">Full Name</span>
+                    </div>
+                    <div class="list-group-item list-group-item-success">
+                        {{ info.dob }}
+                        <span class="badge">DOB</span>
+                    </div>
+                    <div class="list-group-item list-group-item-success">
+                        {{ info.phone }}
+                        <span class="badge">Phone</span>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-4">
+            <img style="" src="{{ asset('images/avatar/'~ info.avatar) }}" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {{ info.description }}
+        </div>
+    </div>
+{% else %}
+    <div class="list-group">
+        <div class="list-group-item">
+            {{ info.fullname }}
+            <span class="badge">Full Name</span>
+        </div>
+    </div>
+{% endif %}
+</div>
+</div>

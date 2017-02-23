@@ -1,0 +1,80 @@
+<?php
+namespace AppBundle\Entity;
+
+use FOS\UserBundle\Model\User as BaseUser;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="lte_user")
+ */
+class User extends BaseUser
+{
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    protected $nickname;
+
+    /**
+     * @ORM\Column(type="string", length=10)
+     */
+    protected $uid;
+
+    /**
+     * @ORM\Column(type="string", length=10)
+     * @Assert\NotBlank(message="Registration type error.")
+     */
+    protected $account_type;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $approved = 0;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $age;
+
+    /**
+     * @ORM\Column(type="string", length=6)
+     */
+    private $gender;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $date_registered;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Activity", mappedBy="map_user_id")
+     */
+    private $activities;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Activity", mappedBy="map_activity_by")
+     */
+    private $activities_by;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Sked", mappedBy="map_id")
+     */
+    private $skeds;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->activities = new ArrayCollection();
+        $this->activities_by = new ArrayCollection();
+        $this->skeds = new ArrayCollection();
+    }
+}

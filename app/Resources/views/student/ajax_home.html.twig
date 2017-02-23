@@ -1,0 +1,29 @@
+<div id="booking">
+    <div style="float:left"><h3 style="margin:0 3px 10px;">講師</h3></div>
+    <div style="float:right">
+        <select id="avail" name="avail" class="full-width-sm">
+            <option value="1">今日利用</option>
+            <option value="0">いつでも利用可能</option>
+        </select>
+        <select id="gender" name="gender" class="full-width-sm">
+            <option value="">ALL 性別</option>
+            <option value="Male">男性</option>
+            <option value="Female">女性</option>
+        </select>
+        <select id="age" name="age" class="full-width-sm">
+            <option value="">ALL 年齢</option>
+            <option value="0">～20代</option>
+            <option value="20">20～29代</option>
+            <option value="30">30～39代</option>
+            <option value="40">40～代</option>
+        </select>
+        <input type='button' class="btn btn-gray" style="margin: 0" onclick='showTutors(0)' value='講師を表示する'/>
+    </div>
+    <div class="clearfix"></div>
+    <div id='skedDiv'></div>
+    <div id="tutorDiv"></div>
+</div>
+
+<script>
+    showTutors(0);
+</script>

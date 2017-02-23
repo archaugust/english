@@ -1,0 +1,21 @@
+{% extends app.user.accountType~'/page.html.twig' %}
+{% block alerts %}
+    {% if app.request.hasPreviousSession %}
+        {% for type, messages in app.session.flashbag.all() %}
+            {% for message in messages %}
+                <div class="alert alert-{{ type }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+{% endblock %}
+
+{% block title %}
+{% endblock %}
+
+{% block onLoad %}
+    {{ parent() }}
+    $('div#memberMenu a').removeClass("active");
+    $('#menu_password').addClass('active');
+{% endblock %}

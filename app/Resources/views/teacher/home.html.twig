@@ -1,0 +1,7 @@
+{% extends 'teacher/page.html.twig' %}
+
+{% block onLoad %}
+$('#time_from').val({{ time_from }});
+$('#time_to').val({{ time_to }});
+getSchedule();
+{% endblock %}

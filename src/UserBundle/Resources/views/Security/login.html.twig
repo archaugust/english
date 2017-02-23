@@ -1,0 +1,36 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+    {% if error %}
+        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    <h1 class="margin-clear">Login</h1>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <p>You are currently logged in as {{ app.user.username }}.</p>
+    {% else %}
+    <div class="row">
+        <div class="col-lg-4">
+            <form action="{{ path("fos_user_security_check") }}" method="post">
+                <fieldset class="form-group">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+
+                <label for="username">{{ 'security.login.username'|trans }}</label>
+                <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" class="form-control" />
+
+                <label for="password" class="mt-10">{{ 'security.login.password'|trans }}</label>
+                <input type="password" id="password" name="_password" required="required" class="form-control" />
+
+                <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+                <label for="remember_me" class="mt-10">{{ 'security.login.remember_me'|trans }}</label>
+
+                <input type="hidden" name="_target_path" value="member" />
+                <br /><input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" class="mt-10 btn" />
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+{% endblock fos_user_content %}

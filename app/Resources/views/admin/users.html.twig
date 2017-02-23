@@ -1,0 +1,63 @@
+{% extends 'admin_base.html.twig' %}
+{% block body %}
+    <form method="post" name="delete">
+        <div class="row">
+            <div class="col-md-4 mb-15">
+                <select name="action" class="form-control" style="width: 150px; display: inline">
+                    <option value="">With Checked</option>
+                    <option>Block</option>
+                    <option>Enable</option>
+                </select>
+                <input type="submit" name="submit" class="btn btn-primary" value="Go">
+            </div>
+            <div class="col-md-8 text-right">
+                {{ paginator|raw }}
+            </div>
+        </div>
+        <table class="table table-bordered table-hover table-responsive">
+            <thead>
+            <tr>
+                <th width="30"><input type="checkbox" id="checkAll"></th>
+                <th width="2%"><a href="?sort=id{% if app.request.get('sort') == 'id' %}&order={% if app.request.get('order') == 'desc' %}asc{% else %}desc{% endif %}{% endif %}">ID</a></th>
+                <th width="55%"><a href="?sort=fullname{% if app.request.get('sort') == 'fullname' %}&order={% if app.request.get('order') == 'desc' %}asc{% else %}desc{% endif %}{% endif %}">Name</a></th>
+                <th width="20%">Points</th>
+                <th width="5%"><a href="?sort=enabled{% if app.request.get('sort') == 'enabled' %}&order={% if app.request.get('order') == 'desc' %}asc{% else %}desc{% endif %}{% endif %}">Enabled</a></th>
+                <th width="20%">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in items %}
+                <tr>
+                    <td><input type="checkbox" name="item[]" value="{{ item.id }}"></td>
+                    <td>{{ item.uid }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.points }}</td>
+                    <td><a href="?page={{ app.request.get('page') }}&sort={{ app.request.get('sort') }}&order={{ app.request.get('order') }}&toggle={{ item.id }}" class="btn btn-default btn-xs"><i class="fa fa-{% if item.enabled == 0 %}times-circle{% else %}check-circle{% endif %}"></i></a></td>
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Action <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Account/Profile</a></li>
+                                <li><a href="#">Schedule</a></li>
+                                {% if type == 'teacher' %}
+                                <li><a href="#">Salary</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </form>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $("#checkAll").click(function(){
+            $('input:checkbox').not(this).prop('checked', this.checked);
+        });
+    </script>
+{% endblock %}

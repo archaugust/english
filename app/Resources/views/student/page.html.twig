@@ -1,0 +1,257 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ parent() }}
+    <section class="pv-30 clearfix">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-md-3">
+                    <div class="list-group" id="memberMenu">
+                        <a href="#" id="overview" class="list-group-item active" onclick="getSummary()"><i class="fa fa-fw fa-calendar-check-o"></i>&nbsp; Overview</a>
+                        <a href="#" id="schedule" class="list-group-item" onclick="getSchedule()"><i class="fa fa-fw fa-calendar"></i>&nbsp; Schedule</a>
+                        <a href="#" id="history" class="list-group-item" onclick="getHistory()"><i class="fa fa-fw fa-history"></i>&nbsp; History</a>
+                        <a href="#" id="bookmarks" class="list-group-item" onclick="getBookmarks()"><i class="fa fa-fw fa-bookmark"></i>&nbsp; Bookmarks</a>
+                        <a href="#" id="past" class="list-group-item" onclick="getClasses()"><i class="fa fa-fw fa-list"></i>&nbsp; Past Classes</a>
+                        <a href="#" class="list-group-item" onclick="editProfile()"><i class="fa fa-fw fa-user"></i>&nbsp; Profile</a>
+                        <a href="{{ path('fos_user_change_password') }}" id="menu_password" class="list-group-item"><i class="fa fa-fw fa-key"></i>&nbsp; Change Password</a>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-9 animated fadeInLeftSmall">
+                    <h1 id="title" class="margin-clear">{% block title %}会員ページ{% endblock %}</h1>
+                    <hr />
+                    <div id="alertsDiv">
+                        {% block alerts %}
+                            {% if app.request.hasPreviousSession %}
+                                {% for type, messages in app.session.flashbag.all() %}
+                                    {% for message in messages %}
+                                        <div class="alert alert-{{ type }}">
+                                            {{ message|raw }}
+                                        </div>
+                                    {% endfor %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endblock %}
+                    </div>
+                    <div class="mt-10" id="memberContent">
+                        {% block content %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <input type="hidden" id="week" value="0" />
+    <input type="hidden" id="time_from" value="0" />
+    <input type="hidden" id="time_to" value="11" />
+    <input type="hidden" id="page" value="0">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        const loader = '<div class="animated fadeIn" style="padding: 15px"><i class="fa fa-refresh fa-spin fa-5x fa-fw"></i><span class="sr-only">Loading...</span></div>';
+
+        function ajaxLoad(type, cache, data, url, div, title) {
+            if (title)
+                $('#title').html(title);
+            $(div).html(loader);
+            $.ajax({
+                cache: cache,
+                type: type,
+                url: url,
+                data: data,
+                success: function(data) {
+                    $(div).html(data);
+                }
+            });
+        }
+
+        function getSummary()
+        {
+            var title = 'Overview';
+            var cache = false;
+            var type = 'POST';
+            var url = '{{ path('ajax_student_home') }}';
+            var data = '';
+            var div = '#memberContent';
+
+            ajaxLoad(type, cache, data, url, div, title);
+        }
+
+        function getSchedule()
+        {
+            var week = $('#week').val();
+            var time_from = $('#time_from').val();
+            var time_to = $('#time_to').val();
+
+            var title = 'Schedule';
+            var cache = false;
+            var type = 'POST';
+            var url = '{{ path('ajax_student_schedule') }}';
+            var div = '#memberContent';
+            var data = 'week='+ week +'&time_from='+ time_from +'&time_to='+ time_to;
+
+            ajaxLoad(type, cache, data, url, div, title);
+        }
+
+        function getHistory()
+        {
+            var page = $('#page').val();
+            var uid = 0;
+
+            var title = 'History';
+            var cache = false;
+            var type = 'POST';
+            var url = '{{ path('ajax_activity') }}';
+            var data = 'page='+ page +'&uid='+ uid;
+            var div = '#memberContent';
+
+            ajaxLoad(type, cache, data, url, div, title);
+        }
+
+        function editProfile()
+        {
+            var title = 'Student Profile';
+            var cache = false;
+            var type = 'POST';
+            var url = '{{ path('student_profile_edit') }}';
+            var div = '#memberContent';
+            var data = '';
+
+            ajaxLoad(type, cache, data, url, div, title);
+        }
+
+        function showTutors(page) {
+            $('#tutorDiv').html('');
+
+            var gender = $('#gender').val();
+            var age = $('#age').val();
+            var avail = $('#avail').val();
+
+            var cache = false;
+            var type = 'POST';
+            var url = '{{ path('ajax_tutors') }}';
+            var data = 'gender=' + gender +'&age=' + age + '&avail=' + avail + '&page=' + page;
+            var div = '#skedDiv';
+
+            ajaxLoad(type, cache, data, url, div);
+        }
+
+        function getBookmarks() {
+            var title = 'Bookmarked Teachers';
+            var cache = false;
+            var type = 'POST';
+            var url = '{{ path('ajax_student_bookmarks') }}';
+            var data = '';
+            var div = '#memberContent';
+
+            ajaxLoad(type, cache, data, url, div, title);
+        }
+
+        function bookmarkAdd(uid){
+            var cache = false;
+            var type = 'POST';
+            var url = '{{ path('ajax_student_bookmark_add') }}';
+            var data = 'uid='+ uid;
+            var div = '#alertsDiv';
+
+            ajaxLoad(type, cache, data, url, div);
+        }
+
+        function bookmarkRemove(uid){
+            var cache = false;
+            var type = 'POST';
+            var url = '{{ path('ajax_student_bookmark_remove') }}';
+            var data = 'uid='+ uid;
+            var div = '#memberContent';
+
+            ajaxLoad(type, cache, data, url, div);
+        }
+
+        function showTutorSked(uid,time_from,time_to,offset,mode)
+        {
+            $('#alertsDiv').html('');
+            $('#skedDiv').html('');
+
+            var cache = false;
+            var type = 'POST';
+            var url = '{{ path('ajax_tutor_sked') }}';
+            var data = 'uid=' + uid +'&time_from=' + time_from + '&time_to=' + time_to + '&offset=' + offset +'&mode=' + mode;
+            var div = '#tutorDiv';
+
+            ajaxLoad(type, cache, data, url, div);
+        }
+
+        function showSked(week, time_from, time_to)
+        {
+            $('#week').val(week);
+            $('#time_from').val(time_from);
+            $('#time_to').val(time_to);
+
+            getSchedule();
+        }
+
+        function confirmSlot(tutor,dateSlot,timeSlot) {
+            $("#tutor").val(tutor);
+            $("#date").val(dateSlot);
+            $("#time").val(timeSlot);
+
+            var gender = $('#gender').val();
+            var age = $('#age').val();
+            var avail = $('#avail').val();
+
+            var cache = false;
+            var type = 'POST';
+            var url = '{{ path('ajax_reservation_confirm') }}';
+            var data = 'tutor=' + tutor +'&date=' + dateSlot + '&time=' + timeSlot;
+            var div = '#confirmDiv';
+
+            ajaxLoad(type, cache, data, url, div);
+        }
+
+        function confirmWriting() {
+            var article = $('#article').val();
+            var tutor = $('#tutor2').val();
+
+            var cache = false;
+            var type = 'POST';
+            var url = '{{ path('ajax_student_writing_confirm') }}';
+            var data = 'tutor=' + tutor +'&article=' + article;
+            var div = '#confirmWritingDiv';
+
+            ajaxLoad(type, cache, data, url, div);
+        }
+
+        function showActivity(page)
+        {
+            $('#page').val(page);
+
+            getHistory();
+        }
+
+        $(document).ready(function () {
+            {% block onLoad %}
+            {% endblock %}
+
+            $('div#memberMenu a').click(function(){
+                $('div#memberMenu a').removeClass("active");
+                $(this).addClass("active");
+                $('#alertsDiv').html('');
+            });
+
+            $('a[href*="#"]:not([href="#"])').click(function() {
+                if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+                    var target = $(this.hash);
+                    target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+                    if (target.length) {
+                        $('html, body').animate({
+                            scrollTop: target.offset().top
+                        }, 1000);
+                        return false;
+                    }
+                }
+            });
+        });
+
+    </script>
+{% endblock %}

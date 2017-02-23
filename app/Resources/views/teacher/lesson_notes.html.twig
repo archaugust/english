@@ -1,0 +1,45 @@
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+<div id="formDiv">
+{% include('alerts.html.twig') %}
+<h1 class="title">Lesson Notes</h1>
+    {{ form_start(form, {'attr':{'id':'form'}}) }}
+    {{ form_errors(form) }}
+<div class="animated fadeInUp">
+	<table class="table table-bordered">
+		<thead><td width="100">Class</td><td>{{ class }}</td></thead>
+		<tr>
+			<td><strong>Lesson</strong></td>
+			<td>{{ item.mode }}</td>
+		</tr>
+		<tr>
+			<td><strong>Student</strong></td>
+			<td><a href="{{ path('reg_info', {'uid':item.studentId}) }}" rel="modal:open">{{ item.student.user.nickname }}</a></td>
+		</tr>
+	</table>
+    <fieldset class="form-group">
+        {{ form_label(form.notes) }}
+        {{ form_widget(form.notes) }}
+        {{ form_errors(form.notes) }}
+    </fieldset>
+    <fieldset class="form-group">
+        {{ form_widget(form.save) }}
+    </fieldset>
+</div>
+    {{ form_end(form) }}
+</div>
+<script>
+$(function() {
+	$('#form').submit(function(event){
+		$('#notes_{{ item.reservationId }}').text($('#reservation_notes_notes').val());
+		event.preventDefault()
+	    var cache = false;
+	    var type = 'POST';
+	    var url = '{{ path('teacher_lesson_notes',{'uid':item.reservationId}) }}';
+	    var data = $('#form').serialize();
+	    var div = '#formDiv';
+
+	    ajaxLoad(type, cache, data, url, div, 'Lesson Notes');
+	    $('#reloadActivity').val(1);
+	})
+})
+</script>

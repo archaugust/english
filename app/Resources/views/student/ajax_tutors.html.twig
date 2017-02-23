@@ -1,0 +1,52 @@
+<div class="animated fadeInDownSmall">
+    <div class="row mt-10 text-info">
+        <div class="col-md-6 col-xs-12">
+            <i class="fa fa-ticket"></i> {{ points }} Lesson Points
+            {% if pending > 0 %}
+                <div><a href="#" onclick="getClasses()" class="text-danger"><i class="fa fa-warning"></i> レッスンを評価して下さい。</a></div>
+            {% endif %}
+        </div>
+        <div class="col-md-6 col-xs-12 text-right">
+            {% if next_class != '' %}
+                <div id="timer" data-seconds-left={{ next_class }} class="pull-right"><i class="fa fa-clock-o"> </i> 次のレッスンまで </div>
+
+                <script src="{{ asset('js/countdown.js') }}"></script>
+                <script>
+                    $(function(){
+                        $('#timer').startTimer();
+                    });
+                </script>
+            {% else %}
+                本日ご予約のレッスンはありません。
+            {% endif %}
+        </div>
+    </div>
+
+    {%  if page > 0 %}
+        <a class="btn btn-gray pull-left" title="前へ" onclick="showTutors({{ page-1 }}),{{ time_from }}, {{ time_to }})"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>';
+    {%  endif %}
+    {% if total > ((page * 12)+12) %}
+        <a class="btn btn-gray" title="次へ" onclick="showTutors({{ page+1 }}, {{ time_from }}, {{ time_to }})"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+    {% endif %}
+
+    {% if content|length > 0 %}
+        <div class="row mt-10">
+            {% for item in content %}
+            <a href="#skedDiv" onclick="showTutorSked({{ item.tutor_id }},{{ time_from }},{{ time_to }},0)">
+                <div class="col-md-3 mb-20">
+                    <div class="avatar">
+                        <figure><img src="{{ asset('images/avatar/' ~ item.avatar) }}" alt="{{ item.nickname }}" class="img-responsive" /></figure>
+                        <div class="caption">{{ item.nickname }}</div>
+                        <div class="caption_points" title="Points/Lesson"><i class="fa fa-ticket"></i> {{ item.points }}</div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        <div style="clear:both;"></div>
+        <hr />
+        講師の詳細についてはニックネームをクリックしてください。
+    {% else %}
+        <p>該当する講師はいません。</p>
+    {% endif %}
+</div>

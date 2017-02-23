@@ -1,0 +1,28 @@
+{% if reservation|length > 0 %}
+    <h3 style="margin-top:0">予約のキャンセル</h3>
+    <form method="post" action="{{ path('student_cancel_confirm') }}">
+        <input type="hidden" name="uid" value="{{ reservation.reservationId }}" />
+        <input type="submit" name="submit" value="はい、予約をキャンセルします" class="btn btn-primary" />
+    </form>
+
+    <table class="table table-bordered table-condensed table-striped">
+        <tr>
+            <td width="40%">レッスン</td>
+            <td>{{ class }}</td>
+        </tr>
+        <tr>
+            <td>講師</td>
+            <td><a href="/member/reg-info?uid={{ reservation.teacherId }}" rel="modal:open">{{ reservation.mapTeacherId.nickname }}</a></td>
+        </tr>
+        <tr>
+            <td>タイトル</td>
+            <td>{{ reservation.mode }}</td>
+        </tr>
+        <tr>
+            <td width="10%">Points Refund</td>
+            <td>{{ reservation.pointCost }}</td>
+        </tr>
+    </table>
+{% else %}
+    <h3 style="margin:0;">このレッスンはキャンセルできません。</h3>
+{% endif %}

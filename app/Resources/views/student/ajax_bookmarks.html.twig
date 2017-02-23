@@ -1,0 +1,51 @@
+<div class="animated fadeInRightSmall">
+    <div id="skedDiv">
+    <div class="row mt-10 text-info">
+        <div class="col-md-6 col-xs-12">
+            <i class="fa fa-ticket"></i> {{ points }} Lesson Points
+            {% if pending > 0 %}
+                <div><a href="#" onclick="getClasses()" class="text-danger"><i class="fa fa-warning"></i> レッスンを評価して下さい。</a></div>
+            {% endif %}
+        </div>
+        <div class="col-md-6 col-xs-12 text-right">
+            {% if next_class != '' %}
+                <div id="timer" data-seconds-left={{ next_class }} class="pull-right"><i class="fa fa-clock-o"> </i> 次のレッスンまで </div>
+
+                <script src="{{ asset('js/countdown.js') }}"></script>
+                <script>
+                    $(function(){
+                        $('#timer').startTimer();
+                    });
+                </script>
+            {% else %}
+                本日ご予約のレッスンはありません。
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="mt-10">
+    {% if bookmarks|length > 0 %}
+        <div class="row mt-10">
+            {% for item in bookmarks %}
+                <a href="#skedDiv" onclick="showTutorSked({{ item.teacher_id }},{{ time_from }},{{ time_to }},0,1)">
+                    <div class="col-md-3 mb-20">
+                        <div class="avatar">
+                            <img src="{{ asset('images/avatar/' ~ item.avatar) }}" alt="{{ item.nickname }}" class="img-responsive" />
+                            <div class="caption">{{ item.nickname }}</div>
+                            <div class="caption_points" title="Points/Lesson"><i class="fa fa-ticket"></i> {{ item.points }}</div>
+                            <div class="caption_x"><a href="#" onclick="bookmarkRemove({{ item.teacher_id }})" title="除"><i class="fa fa-times"></i></a></div>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+        <div style="clear:both;"></div>
+        <hr />
+        講師の詳細についてはニックネームをクリックしてください。
+    {% else %}
+    <p>お気に入りの講師はブックマークされていません。</p>
+    {% endif %}
+    </div>
+    </div>
+    <div id="tutorDiv"></div>
+</div>

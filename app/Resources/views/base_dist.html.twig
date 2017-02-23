@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    {% block meta %}
+    <title>LaTorre English</title>
+    <meta name="description" content="Learn English.">
+    {% endblock %}
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+    {% block stylesheets %}
+        {% stylesheets
+        'http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic,700,700italic'
+        'http://fonts.googleapis.com/css?family=Raleway:700,400,300'
+        'http://fonts.googleapis.com/css?family=Pacifico'
+        'http://fonts.googleapis.com/css?family=PT+Serif'
+        '//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css'
+        'bootstrap/css/bootstrap.css'
+        'fonts/font-awesome/css/font-awesome.css'
+        'fonts/fontello/css/fontello.css'
+        'plugins/magnific-popup/magnific-popup.css'
+        'plugins/rs-plugin/css/settings.css'
+        'css/animations.css'
+        'plugins/owl-carousel/owl.carousel.css'
+        'plugins/owl-carousel/owl.transitions.css'
+        'plugins/hover/hover-min.css'
+        'plugins/morphext/morphext.css'
+        'css/style.css'
+        'css/custom.css'
+        filter='cssrewrite' output='css/compiled/app.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
+    {% endblock %}
+</head>
+
+<body class="no-trans front-page">
+    <!-- scrollToTop -->
+    <!-- ================ -->
+    <div class="scrollToTop circle"><i class="icon-up-open-big"></i></div>
+
+    <!-- page wrapper start -->
+    <!-- ================ -->
+    <div class="page-wrapper">
+        {% block body %}
+        <!-- header-container start -->
+        <div class="header-container">
+
+            <!-- header-top start -->
+            <!-- ================ -->
+            <div class="header-top dark ">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-2 col-lg-7 col-sm-5">
+                            <!-- header-top-first start -->
+                            <!-- ================ -->
+                            <div class="header-top-first clearfix">
+                                <ul class="social-links circle small clearfix hidden-xs">
+                                    <li class="twitter"><a target="_blank" href="#"><i class="fa fa-twitter"></i></a></li>
+                                    <li class="skype"><a target="_blank" href="#"><i class="fa fa-skype"></i></a></li>
+                                    <li class="linkedin"><a target="_blank" href="#"><i class="fa fa-linkedin"></i></a></li>
+                                    <li class="googleplus"><a target="_blank" href="#"><i class="fa fa-google-plus"></i></a></li>
+                                    <li class="youtube"><a target="_blank" href="#"><i class="fa fa-youtube-play"></i></a></li>
+                                    <li class="flickr"><a target="_blank" href="#"><i class="fa fa-flickr"></i></a></li>
+                                    <li class="facebook"><a target="_blank" href="#"><i class="fa fa-facebook"></i></a></li>
+                                    <li class="pinterest"><a target="_blank" href="#"><i class="fa fa-pinterest"></i></a></li>
+                                </ul>
+                                <div class="social-links hidden-lg hidden-md hidden-sm circle small">
+                                    <div class="btn-group dropdown">
+                                        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><i class="fa fa-share-alt"></i></button>
+                                        <ul class="dropdown-menu dropdown-animation">
+                                            <li class="twitter"><a target="_blank" href="#"><i class="fa fa-twitter"></i></a></li>
+                                            <li class="skype"><a target="_blank" href="#"><i class="fa fa-skype"></i></a></li>
+                                            <li class="linkedin"><a target="_blank" href="#"><i class="fa fa-linkedin"></i></a></li>
+                                            <li class="googleplus"><a target="_blank" href="#"><i class="fa fa-google-plus"></i></a></li>
+                                            <li class="youtube"><a target="_blank" href="#"><i class="fa fa-youtube-play"></i></a></li>
+                                            <li class="flickr"><a target="_blank" href="#"><i class="fa fa-flickr"></i></a></li>
+                                            <li class="facebook"><a target="_blank" href="#"><i class="fa fa-facebook"></i></a></li>
+                                            <li class="pinterest"><a target="_blank" href="#"><i class="fa fa-pinterest"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- header-top-first end -->
+                        </div>
+                        <div class="col-xs-10 col-lg-5 col-sm-7">
+                            <!-- header-top-second start -->
+                            <!-- ================ -->
+                            <div id="header-top-second"  class="clearfix text-right hidden-xs">
+                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                <ul class="list-inline">
+                                    <li><i class="fa fa-user pr-5 pl-10"></i>{{ app.user.username }}</li>
+                                    <li><i class="fa fa-sign-out pr-5 pl-10"></i><a href="/logout">Logout</a></li>
+                                </ul>
+                                {% else %}
+                                    <div class="row-login">
+                                    <form action="{{ path('fos_user_security_check') }}" class="form-inline" method="post">
+                                        <input type="hidden" name="_target_path" value="member">
+                                    <div class="form-group form-group-sm">
+                                        <label class="sr-only" for="username">Username</label>
+                                        <input type="text" class="form-control" placeholder="Username or Email" name="_username" id="username">
+                                    </div>
+                                    <div class="form-group form-group-sm">
+                                        <label class="sr-only" for="password">Password</label>
+                                        <input type="password" class="form-control" placeholder="Password" name="_password" id="password">
+                                    </div>
+                                                    <button class="btn btn-sm btn-default" type="submit">Login</button>
+                                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                                    </form>
+                                    </div>
+                                {% endif %}
+                            <!-- header-top-second end -->
+                            </div>
+                            <div class="clearfix text-right hidden-lg hidden-md hidden-sm pr-10">
+                                <ul class="list-inline">
+                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                    <li><i class="fa fa-user pr-5 pl-10"></i>{{ app.user.username }}</li>
+                                    <li><i class="fa fa-sign-out pr-5 pl-10"></i><a href="/logout">Logout</a></li>
+                                {% else %}
+                                    <li><i class="fa fa-sign-in pr-5 pl-10"></i><a href="/login">Login</a></li>
+                                {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- header-top end -->
+
+            <!-- header start -->
+            <!-- ================ -->
+            <header class="header  fixed    clearfix">
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3 ">
+                            <!-- header-left start -->
+                            <!-- ================ -->
+                            <div class="header-left clearfix">
+
+                                <!-- logo -->
+                                <div id="logo" class="logo">
+                                    <a href="/"><img id="logo_img" src="{{ asset('images/logo.png') }}" alt="LaTorre English Learning"></a>
+                                </div>
+
+                            </div>
+                            <!-- header-left end -->
+
+                        </div>
+                        <div class="col-md-9">
+
+                            <!-- header-right start -->
+                            <!-- ================ -->
+                            <div class="header-right clearfix">
+
+                                <!-- main-navigation start -->
+                                <!-- ================ -->
+                                <div class="main-navigation  animated with-dropdown-buttons">
+
+                                    <!-- navbar start -->
+                                    <!-- ================ -->
+                                    <nav class="navbar navbar-default" role="navigation">
+                                        <div class="container-fluid">
+
+                                            <div class="navbar-header">
+                                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                                                    <span class="sr-only">Toggle navigation</span>
+                                                    <span class="icon-bar"></span>
+                                                    <span class="icon-bar"></span>
+                                                    <span class="icon-bar"></span>
+                                                </button>
+
+                                            </div>
+
+                                            <div class="collapse navbar-collapse" id="navbar-collapse-1">
+                                                <!-- main-menu -->
+                                                {{ knp_menu_render('AppBundle:Builder:mainMenu', { 'template': 'main_menu.html.twig', 'currentClass': 'active' }) }}
+                                                <!-- main-menu end -->
+
+                                                <!-- header buttons -->
+                                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                                <div class="header-dropdown-buttons hidden-xs ">
+                                                    <a href="/member" class="btn btn-sm hidden-xs btn-primary">My Page <i class="fa fa-sign-in pl-5"></i></a>
+                                                </div>
+                                                {% else %}
+                                                <div class="header-dropdown-buttons">
+                                                    <a href="/register/student" class="btn btn-sm hidden-xs btn-default">Register <i class="fa fa-sign-in pl-5"></i></a>
+                                                    <a href="/register/student" class="btn btn-lg visible-xs btn-block btn-default">Register <i class="fa fa-sign-in pl-5"></i></a>
+                                                </div>
+                                                {% endif %}
+                                                <!-- header buttons end-->
+
+                                            </div>
+
+                                        </div>
+                                    </nav>
+                                    <!-- navbar end -->
+
+                                </div>
+                                <!-- main-navigation end -->
+                            </div>
+                            <!-- header-right end -->
+
+                        </div>
+                    </div>
+                </div>
+
+            </header>
+            <!-- header end -->
+        </div>
+        <!-- header-container end -->
+        {% endblock %}
+
+        <!-- footer start -->
+        <!-- ================ -->
+        <footer id="footer" class="clearfix dark">
+
+            <!-- .footer start -->
+            <!-- ================ -->
+            <div class="footer">
+                <div class="container">
+                    <div class="footer-inner">
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-3">
+                                <div class="footer-content text-center padding-ver-clear">
+                                    <div class="logo-footer"><img id="logo-footer" class="center-block" src="images/logo_light_blue.png" alt=""></div>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus illo vel dolorum soluta consectetur doloribus sit. Delectus non tenetur odit dicta vitae debitis suscipit doloribus. Lorem ipsum dolor sit amet, illo vel dolorum soluta consectetur.</p>
+                                    <ul class="list-inline mb-20">
+                                        <li><i class="text-default fa fa-map-marker pr-5"></i>One infinity loop, 54100</li>
+                                        <li><a href="tel:+00 1234567890" class="link-dark"><i class="text-default fa fa-phone pl-10 pr-5"></i>+00 1234567890</a></li>
+                                        <li><a href="mailto:info@latorreenglish.com" class="link-dark"><i class="text-default fa fa-envelope-o pl-10 pr-5"></i>info@latorreenglish.com</a></li>
+                                    </ul>
+                                    <ul class="social-links circle animated-effect-1 margin-clear">
+                                        <li class="facebook"><a target="_blank" href="http://www.facebook.com"><i class="fa fa-facebook"></i></a></li>
+                                        <li class="twitter"><a target="_blank" href="http://www.twitter.com"><i class="fa fa-twitter"></i></a></li>
+                                        <li class="googleplus"><a target="_blank" href="http://plus.google.com"><i class="fa fa-google-plus"></i></a></li>
+                                        <li class="linkedin"><a target="_blank" href="http://www.linkedin.com"><i class="fa fa-linkedin"></i></a></li>
+                                        <li class="xing"><a target="_blank" href="http://www.xing.com"><i class="fa fa-xing"></i></a></li>
+                                    </ul>
+                                    <div class="separator"></div>
+                                    <p class="text-center margin-clear">Copyright © 2016 LaTorre English Learning. All Rights Reserved</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- .footer end -->
+
+        </footer>
+        <!-- footer end -->
+
+        <!-- page-wrapper end -->
+    </div>
+
+{% block javascripts %}
+    {% javascripts
+    'plugins/jquery.min.js'
+    'bootstrap/js/bootstrap.min.js'
+    'plugins/modernizr.js'
+    'plugins/rs-plugin/js/jquery.themepunch.tools.min.js'
+    'plugins/rs-plugin/js/jquery.themepunch.revolution.min.js'
+    'plugins/isotope/isotope.pkgd.min.js'
+    'plugins/waypoints/jquery.waypoints.min.js'
+    'plugins/jquery.browser.js'
+    'plugins/SmoothScroll.js'
+    'js/template.js'
+    'js/custom.js'
+    'js/jquery-ui.min.js'
+    output='js/compiled/app.js'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+</body>
+</html>

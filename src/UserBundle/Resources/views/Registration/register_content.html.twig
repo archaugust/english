@@ -1,0 +1,70 @@
+{% form_theme form 'form_errors.html.twig' %}
+<div class="animated fadeInDownSmall">
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    You are already registered.
+    {% else %}
+    {% if form.account_type.vars.value == 'teacher' or form.account_type.vars.value == 'student' %}
+    <h1 class="margin-clear">Account Info</h1>
+    This will be your login info and where any email notifications are sent.
+    {{ form_start(form, {'attr': {'class': 'fos_user_registration_register','id':'registration_form'}}) }}
+    {% if not form.vars.valid %}
+        <div class="alert alert-danger">
+            <strong>Error!</strong> Please review the fields marked with errors below.
+        </div>
+    {% endif %}
+    <fieldset class="form-group">
+        {{ form_label(form.nickname) }}
+        {{ form_widget(form.nickname, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.nickname) }}
+        <div class="mt-10">
+            {{ form_label(form.email) }}
+            {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.email) }}
+        </div>
+        <div class="mt-10">
+            {{ form_label(form.plainPassword.first) }}
+            {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.plainPassword.first) }}
+        </div>
+        <div class="mt-10">
+            {{ form_label(form.plainPassword.second) }}
+            {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        {% if form.account_type.vars.value == 'teacher' %}
+        <div class="mt-10">
+            {{ form_label(form.gender) }}
+            {{ form_widget(form.gender, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.gender) }}
+        </div>
+        {% else %}
+            {{ form_widget(form.gender, {'attr': {'class': 'hidden'}}) }}
+        {% endif %}
+    </fieldset>
+    <div>
+        <div class="g-recaptcha" data-sitekey="6LeHcBYUAAAAALbgeIQapTud_t2maGOmeVcz7-IZ"></div>
+        <input type="submit" class="btn btn-primary" value="{{ 'registration.submit'|trans }}" />
+    </div>
+    {{ form_widget(form.username, {'attr': {'class': 'hidden'}}) }}
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <script>
+        $('#registration_form').submit(function(event) {
+            var str = $('#registration_form').serialize();
+            $('#registrationDiv').html('<i class="fa fa-refresh fa-spin fa-5x fa-fw"></i><span class="sr-only">Loading...</span>');
+
+            $.ajax({
+                type: "POST",
+                url: "{{ path('fos_user_registration_register') }}",
+                data: str,
+                success: function (data) {
+                    $('#registrationDiv').html(data);
+                }
+            })
+            event.preventDefault();
+        });
+    </script>
+    {{ form_end(form) }}
+{% else %}
+    Direct access not allowed.
+{% endif %}
+    {% endif %}
+</div>

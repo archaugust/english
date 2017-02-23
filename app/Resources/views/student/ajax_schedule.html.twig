@@ -1,0 +1,122 @@
+<div class="animated fadeInRightSmall">
+    <div id="scheduleMainDiv">
+        <div class="pull-right"><a href="member/student-plan" rel="modal:open" class="btn btn-gray">プラン詳細</a></div>
+        <h3 style="margin:0 0 10px;">プラン名： {{ plan }} ポイントプラン</h3>
+
+        {% if classes|length > 0 %}
+        <table class="table table-striped table-bordered table-condensed">
+            <tr>
+                <td width="15%">レッスン</td>
+                <td>講師</td>
+                <td>タイトル</td>
+                <td width="10%">Points</td>
+                <td width="15%">キャンセル</td>
+            </tr>
+
+            {% for class in classes %}
+            <tr valign="top">
+                <td>{{ class.datetime }}</td>
+                <td><a href="/member/reg-info?uid={{ class.teacher_id }}" rel="modal:open">{{ class.teacher }}</a></td>
+                <td>{{ class.mode }}</td>
+                <td>{{ class.point_cost }}</td>
+                <td>{{ class.action|raw }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </div>
+
+    <hr />
+    <a onclick="showSked({{ week }}, 0, 11)" class="btn btn-{% if time_from == 0 %}primary"><i class="fa fa-hourglass-start" aria-hidden="true"></i> {% else %}gray">{% endif %}0:00 - 11:30</a>
+    <a onclick="showSked({{ week }}, 12, 23)" class="btn btn-{% if time_from == 12 %}primary"><i class="fa fa-hourglass-start" aria-hidden="true"></i> {% else %}gray">{% endif %}12:00 - 23:30</a>
+
+    <div class="pull-right">
+        <a onclick="showSked({{ week-1 }}, {{ time_from }}, {{ time_to }})" class="btn btn-gray pull-left" title="Previous Week"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
+        <h3 style="margin:12px 7px 0; float: left;">{{ dates }}</h3>
+        <a onclick="showSked({{ week+1 }}, {{ time_from }}, {{ time_to }})" class="btn btn-gray" title="Next Week"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-sked table-condensed">
+            <tr class="hidden-xs">
+                {% for i in 0..7 %}
+                    <td>{{ calendar[0][i]|raw }}</td>
+                {% endfor %}
+            </tr>
+            <tr class="hidden-xs">
+                {% for i in 0..7 %}
+                    <td>{{ calendar[1][i]|raw }}</td>
+                {% endfor %}
+            </tr>
+            {% for i in 2..25 %}
+                <tr>
+                    {% for j in 0..7 %}
+                        <td>{{ calendar[i][j]|raw }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            <tr class="hidden-xs">
+                {% for i in 0..7 %}
+                    <td>{{ calendar[1][i]|raw }}</td>
+                {% endfor %}
+            </tr>
+            <tr class="hidden-xs">
+                {% for i in 0..7 %}
+                    <td>{{ calendar[0][i]|raw }}</td>
+                {% endfor %}
+            </tr>
+        </table>
+    </div>
+</div>
+<style>
+    @media
+    only screen and (max-width: 760px),
+    (min-device-width: 768px) and (max-device-width: 1024px)  {
+
+        /* Force table to not be like tables anymore */
+        table, thead, tbody, th, td, tr {
+            display: block;
+        }
+
+        /* Hide table headers (but not display: none;, for accessibility) */
+        #responsive thead tr {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+        }
+
+        #responsive tr { border: 1px solid #ccc; }
+
+        #responsive td {
+            /* Behave  like a "row" */
+            border: none;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding-left: 50%;
+        }
+
+        #responsive td:before {
+            /* Now like a table header */
+            position: absolute;
+            /* Top/left values mimic padding */
+            top: 6px;
+            left: 6px;
+            width: 45%;
+            padding-right: 10px;
+            white-space: nowrap;
+        }
+
+        /*
+        Label the data
+        */
+        #responsive td:nth-of-type(1):before { content: "{{ calendar[1][0] }}"; }
+        #responsive td:nth-of-type(2):before { content: "{{ calendar[1][1] }}"; }
+        #responsive td:nth-of-type(3):before { content: "{{ calendar[1][2] }}"; }
+        #responsive td:nth-of-type(4):before { content: "{{ calendar[1][3] }}"; }
+        #responsive td:nth-of-type(5):before { content: "{{ calendar[1][4] }}"; }
+        #responsive td:nth-of-type(6):before { content: "{{ calendar[1][5] }}"; }
+        #responsive td:nth-of-type(7):before { content: "{{ calendar[1][6] }}"; }
+        #responsive td:nth-of-type(8):before { content: "{{ calendar[1][7] }}"; }
+    }
+</style>

@@ -1,0 +1,174 @@
+{% extends 'home.html.twig' %}
+
+{% block body %}
+    {{ parent() }}
+    <!-- banner start -->
+    <!-- ================ -->
+        <div class="banner clearfix">
+
+            <!-- slideshow start -->
+            <!-- ================ -->
+            <div class="slideshow">
+
+                <!-- slider revolution start -->
+                <!-- ================ -->
+                <div class="slider-banner-container">
+                    <div class="slider-banner-fullwidth">
+                        <ul class="slides">
+                            <!-- slide 1 start -->
+                            <!-- ================ -->
+                            <li data-transition="fade" data-slotamount="1" data-masterspeed="500" data-saveperformance="on" data-title="診断テストが受けられ">
+
+                                <!-- main image -->
+                                <img src="images/slide-teacher.jpg" style="background-color:#9E5C39; " alt="slidebg1" data-bgposition="center top"  data-bgrepeat="no-repeat" data-bgfit="contain">
+
+                                <!-- LAYER NR. 1 -->
+                                <div class="tp-caption sfb fadeout large_white"
+                                     data-x="left"
+                                     data-y="110"
+                                     data-speed="500"
+                                     data-start="1000"
+                                     data-easing="easeOutQuad">ディスカバーイングリッシュ
+                                </div>
+
+                                <!-- LAYER NR. 2 -->
+                                <div class="tp-caption sfb fadeout large_white tp-resizeme hidden-xs"
+                                     data-x="left"
+                                     data-y="170"
+                                     data-speed="500"
+                                     data-start="1300"
+                                     data-easing="easeOutQuad"><div class="separator-2 light"></div>
+                                </div>
+
+                                <!-- LAYER NR. 3 -->
+                                <div class="tp-caption sfb fadeout medium_white hidden-xs"
+                                     data-x="left"
+                                     data-y="180"
+                                     data-speed="500"
+                                     data-start="1300"
+                                     data-easing="easeOutQuad"
+                                     data-endspeed="600">Lorem ipsum dolor sit amet, consectetur adipisicing elit. <br> Nesciunt, maiores, aliquid.
+                                </div>
+
+                                <!-- LAYER NR. 4 -->
+                                <div class="tp-caption sfb fadeout small_white"
+                                     data-x="left"
+                                     data-y="260"
+                                     data-speed="500"
+                                     data-start="1600"
+                                     data-easing="easeOutQuad"
+                                     data-endspeed="600"><a href="#" class="btn btn-dark btn-animated">Read More <i class="fa fa-arrow-right"></i></a> <span class="pl-5 pr-5">or</span> <a href="page-contact.html" class="btn btn-default btn-animated">Contact Us <i class="fa fa-envelope"></i></a>
+                                </div>
+
+                            </li>
+                            <!-- slide 1 end -->
+
+                            <!-- slide 2 start -->
+                            <!-- ================ -->
+                            <li data-transition="fade" data-slotamount="1" data-masterspeed="500" data-saveperformance="on" data-title="プログラムも受けられる">
+
+                                <!-- main image -->
+                                <img src="images/slide-student.jpg" style="background-color: #E3E5D8;" alt="slidebg2" data-bgposition="center top"  data-bgrepeat="no-repeat" data-bgfit="contain">
+
+                                <!-- LAYER NR. 1 -->
+                                <div class="tp-caption sfb fadeout large_white"
+                                     data-x="right"
+                                     data-y="110"
+                                     data-speed="500"
+                                     data-start="1000"
+                                     data-easing="easeOutQuad">オンライン英会話
+                                </div>
+
+                                <!-- LAYER NR. 2 -->
+                                <div class="tp-caption sfb fadeout text-right large_white tp-resizeme hidden-xs"
+                                     data-x="right"
+                                     data-y="150"
+                                     data-speed="500"
+                                     data-start="1300"
+                                     data-easing="easeOutQuad"><div class="separator light"></div>
+                                </div>
+
+                                <!-- LAYER NR. 3 -->
+                                <div class="tp-caption sfb fadeout medium_white text-right hidden-xs"
+                                     data-x="right"
+                                     data-y="180"
+                                     data-speed="500"
+                                     data-start="1300"
+                                     data-easing="easeOutQuad"
+                                     data-endspeed="600">Lorem ipsum dolor sit amet, consectetur adipisicing elit. <br> Nesciunt, maiores, aliquid.
+                                </div>
+
+                                <!-- LAYER NR. 4 -->
+                                <div class="tp-caption sfb fadeout small_white text-right"
+                                     data-x="right"
+                                     data-y="260"
+                                     data-speed="500"
+                                     data-start="1600"
+                                     data-easing="easeOutQuad"
+                                     data-endspeed="600"><a href="#" class="btn btn-dark btn-animated">Read More <i class="fa fa-arrow-right"></i></a> <span class="pl-5 pr-5">or</span> <a href="page-contact.html" class="btn btn-default btn-animated">Contact Us <i class="fa fa-envelope"></i></a>
+                                </div>
+
+                            </li>
+                            <!-- slide 2 end -->
+                        </ul>
+                        <div class="tp-bannertimer"></div>
+                    </div>
+                </div>
+                <!-- slider revolution end -->
+
+            </div>
+            <!-- slideshow end -->
+
+        </div>
+        <!-- banner end -->
+
+    <div id="page-start"></div>
+
+    <!-- section start -->
+    <!-- ================ -->
+    <section class="light-gray-bg pv-30 padding-bottom-clear clearfix">
+        <div class="container">
+            {{ render(controller('ContentBundle:ContentFront:page',{'id':1})) }}
+        </div>
+    </section>
+    <!-- section end -->
+    <!-- footer top start -->
+    <!-- ================ -->
+    <div class="dark-translucent-bg footer-top animated-text default-hovered" style="background-color:rgba(0,0,0,0.6);">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="call-to-action text-center">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <h2>ライティング（書く）プログラムも受けられる</h2>
+                                <h2>個々に合わせてカリキュラムを作成</h2>
+                            </div>
+                            <div class="col-sm-4">
+                                <p class="mt-10"><a href="#" class="btn btn-animated btn-lg btn-gray-transparent">Register<i class="fa fa-sign-in pl-20" style="margin-top: -5px"></i></a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- footer top end -->
+
+{% endblock %}
+
+{% block footer %}
+<div class="logo-footer"><img id="logo-footer" class="center-block" src="{{ asset('images/logo_light.png') }}" alt="Latorre"></div>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus illo vel dolorum soluta consectetur doloribus sit. Delectus non tenetur odit dicta vitae debitis suscipit doloribus. Lorem ipsum dolor sit amet, illo vel dolorum soluta consectetur.</p>
+<ul class="list-inline mb-20">
+    <li><i class="text-default fa fa-map-marker pr-5"></i>One infinity loop, 54100</li>
+    <li><a href="tel:+00 1234567890" class="link-dark"><i class="text-default fa fa-phone pl-10 pr-5"></i>+00 1234567890</a></li>
+    <li><a href="mailto:info@latorreenglish.com" class="link-dark"><i class="text-default fa fa-envelope-o pl-10 pr-5"></i>info@latorreenglish.com</a></li>
+</ul>
+<ul class="social-links circle animated-effect-1 margin-clear">
+    <li class="facebook"><a target="_blank" href="http://www.facebook.com"><i class="fa fa-facebook"></i></a></li>
+    <li class="twitter"><a target="_blank" href="http://www.twitter.com"><i class="fa fa-twitter"></i></a></li>
+</ul>
+<div class="separator"></div>
+{{ parent() }}
+{% endblock %}

@@ -1,0 +1,39 @@
+<div class="animated fadeInDownSmall">
+    <hr />
+    <h3>レッスン予約確認</h3>
+    <table class="table table-condensed table-striped">
+        <tr><td colspan="2">{{ class }} の <b>{{ tutor }}</b> のレッスンを予約してよろしいでしょうか。</td></tr>
+        <tr valign="top"><td width="200"><strong>必要ポイント数: </strong></td>
+            <td>{{ points }} - ESL<br />
+                {{ points_fixed }} - TOEIC, TOEFL, OPIC, IELTS, Business English
+            </td>
+        </tr>
+        <tr valign="top">
+            <td><strong>レッスン</strong>:</td>
+            <td>
+                <select name="mode" class="form-control">
+                    <option value="ESL">レッスンを選択する</option>
+                    <option value="ESL">ESL</option>
+                    {% if plan != 10000 %}
+                         <optgroup label="Plan 1000 and Up">
+                    {% endif %}
+                    <option value="TOEIC" {% if plan < 1000 %}disabled{% endif %}>TOEIC</option>
+                    <option value="TOEFL" {% if plan < 1000 %}disabled{% endif %}>TOEFL</option>
+                    <option value="OPIC" {% if plan < 1000 %}disabled{% endif %}>OPIC</option>
+                    <option value="IELTS" {% if plan < 1000 %}disabled{% endif %}>IELTS</option>
+                    {% if plan != 10000 %}
+                    </optgroup>
+                    <optgroup label="Plan 1500 and Up">
+                    {% endif %}
+                        <option value="Business English" {% if plan < 1000 %}disabled{% endif %}>Business English</option>
+                    {% if plan != 10000 %}
+                    </optgroup>
+                    {% endif %}
+                </select>
+            </td>
+        </tr>
+    </table>
+
+    <button value="Confirm" name="Submit" type="submit" class="btn btn-primary" style="margin-top:7px;">はい</button>
+    <hr />
+</div>
